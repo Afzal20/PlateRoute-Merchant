@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/idempotent_submit_button.dart';
 import '../data/menu_model.dart';
 import 'menu_provider.dart';
 
@@ -140,8 +141,8 @@ class _PriceEditScreenState extends ConsumerState<PriceEditScreen> {
             SizedBox(
               height: AppSizes.touchPrimary,
               width: double.infinity,
-              child: FilledButton(
-                onPressed: _input.isEmpty || _newPriceMinor <= 0 ? null : _confirm,
+              child: IdempotentSubmitButton(
+                onPressed: () async => _input.isEmpty || _newPriceMinor <= 0 ? null : _confirm(),
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.actionAcceptDark,
                   shape: RoundedRectangleBorder(
