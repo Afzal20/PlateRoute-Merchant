@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/core_providers.dart';
+import '../../../core/widgets/idempotent_submit_button.dart';
 
 class Review {
   const Review({
@@ -248,22 +249,18 @@ class _ReviewReplyComposerState extends State<_ReviewReplyComposer> {
           const SizedBox(height: AppSizes.spacingM),
           SizedBox(
             height: AppSizes.touchPrimary,
-            child: FilledButton(
-              onPressed: _ctrl.text.isEmpty || _isSending
-                  ? null
-                  : () async {
-                      setState(() => _isSending = true);
-                      await widget.onSend(_ctrl.text.trim());
-                    },
+            child: IdempotentSubmitButton(
+              onPressed: () async {
+                if (_ctrl.text.isEmpty) return;
+                await widget.onSend(_ctrl.text.trim());
+              },
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.borderRadius),
                 ),
               ),
-              child: _isSending
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : Text(
+              child: Text(
                       'Send reply',
                       style: AppTextStyles.button.copyWith(color: Colors.white),
                     ),
