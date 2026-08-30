@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/idempotent_submit_button.dart';
 
 /// S11 — Opening hours editor with weekly schedule grid.
 class HoursScreen extends ConsumerWidget {
@@ -19,8 +20,11 @@ class HoursScreen extends ConsumerWidget {
         title: const Text('Opening hours'),
         leading: BackButton(onPressed: () => context.pop()),
         actions: [
-          TextButton(
-            onPressed: () {},
+          IdempotentSubmitButton(
+            onPressed: () async {},
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.primary,
+            ),
             child: const Text('Save'),
           ),
         ],
