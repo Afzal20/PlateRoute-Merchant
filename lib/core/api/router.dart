@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/onboarding_screen.dart';
+import '../../features/auth/presentation/password_reset_screen.dart';
 import '../../features/orders/presentation/orders_board_screen.dart';
 import '../../features/orders/presentation/order_detail_screen.dart';
 import '../../features/orders/presentation/alarm_overlay_screen.dart';
@@ -24,6 +25,7 @@ import '../providers/auth_state_provider.dart';
 abstract final class Routes {
   static const login = '/login';
   static const onboarding = '/onboarding';
+  static const forgotPassword = '/forgot-password';
   static const orders = '/orders';
   static const orderDetail = '/orders/:uuid';
   static const alarm = '/alarm/:uuid';
@@ -69,6 +71,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.onboarding,
         builder: (_, __) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: Routes.forgotPassword,
+        builder: (_, __) => const PasswordResetScreen(),
       ),
       // Alarm overlay (full-screen, above shell)
       GoRoute(
