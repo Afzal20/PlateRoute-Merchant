@@ -35,19 +35,19 @@ class ReviewsScreen extends ConsumerStatefulWidget {
 class _ReviewsScreenState extends ConsumerState<ReviewsScreen> {
   // Mock reviews until API wired
   final _reviews = [
-    const Review(
+    Review(
       id: 1,
       rating: 5,
       comment: 'Amazing food! Came really hot and on time.',
       customerName: 'Rafiq',
-      createdAt: Duration(days: 1) as dynamic,
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
-    const Review(
+    Review(
       id: 2,
       rating: 3,
       comment: 'Good taste but a bit delayed.',
       customerName: 'Nasrin',
-      createdAt: Duration(days: 2) as dynamic,
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
     ),
   ];
 
