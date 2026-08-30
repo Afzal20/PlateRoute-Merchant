@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/countdown_ring.dart';
+import '../../../core/widgets/idempotent_submit_button.dart';
 import '../data/order_model.dart';
 import 'orders_board_provider.dart';
 import 'widgets/reject_reason_sheet.dart';
@@ -339,24 +340,15 @@ class _AlarmContent extends StatelessWidget {
               scale: pulseAnim,
               child: SizedBox(
                 height: 72,
-                child: FilledButton(
-                  onPressed: isAccepting ? null : onAccept,
+                child: IdempotentSubmitButton(
+                  onPressed: () async => onAccept(),
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.actionAcceptDark,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppSizes.borderRadius),
                     ),
                   ),
-                  child: isAccepting
-                      ? const SizedBox(
-                          width: 28,
-                          height: 28,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
+                  child: Text(
                           'Accept order now',
                           style: AppTextStyles.button.copyWith(
                             color: Colors.white,
