@@ -6,6 +6,7 @@ import '../../../core/api/router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/auth_state_provider.dart';
+import '../../../core/widgets/idempotent_submit_button.dart';
 import '../data/auth_repository.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -149,24 +150,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: AppSizes.spacingL),
                     SizedBox(
                       height: AppSizes.touchPrimary,
-                      child: FilledButton(
-                        onPressed: _isLoading ? null : _submit,
+                      child: IdempotentSubmitButton(
+                        onPressed: _submit,
                         style: FilledButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppSizes.borderRadius),
                           ),
                         ),
-                        child: _isLoading
-                            ? const SizedBox(
-                                width: 22,
-                                height: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Text(
+                        child: Text(
                                 'Sign in',
                                 style: AppTextStyles.button.copyWith(color: Colors.white),
                               ),
