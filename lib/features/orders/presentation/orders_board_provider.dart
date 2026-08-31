@@ -8,6 +8,8 @@ import '../data/order_model.dart';
 import '../data/orders_repository.dart';
 import '../data/order_board_ws.dart';
 
+import '../../../core/providers/branch_provider.dart';
+
 class OrderBoardState {
   const OrderBoardState({
     this.orders = const [],
@@ -129,8 +131,9 @@ class OrderBoardNotifier extends Notifier<OrderBoardState> {
       _handleWsEvent(event);
     });
 
-    // TODO: pass real branchUuid from selected branch provider
-    ws.connect(branchUuid: 'default');
+    final branch = ref.read(branchProvider);
+    final uuid = branch.branchUuid ?? 'default';
+    ws.connect(branchUuid: uuid);
   }
 
   void _handleWsEvent(WsOrderEvent event) {

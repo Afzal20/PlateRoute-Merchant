@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../../core/widgets/countdown_ring.dart';
-import '../data/order_model.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/countdown_ring.dart';
+import '../../data/order_model.dart';
 
 /// Card representing a single order on the board.
 /// Left urgency border color determined by bucket.

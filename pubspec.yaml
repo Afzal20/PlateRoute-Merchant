@@ -4,8 +4,6 @@ publish_to: 'none'
 
 version: 1.0.0+1
 
-flutter:
-  generate: true
 
 environment:
   sdk: ^3.13.0
@@ -68,6 +66,7 @@ dependencies:
   equatable: ^2.0.5
   collection: ^1.18.0
   rxdart: ^0.28.0
+  supabase_flutter: ^2.17.2
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +78,7 @@ dev_dependencies:
   riverpod_lint: ^2.3.13
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

@@ -61,6 +61,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  Future<void> _handleGoogleLogin() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final success = await ref.read(authStateProvider.notifier).loginWithGoogle();
+    if (!mounted) return;
+    if (!success) {
+      setState(() {
+        _error = 'Google Login failed.';
+        _isLoading = false;
+      });
+    } else {
+      // The auth listener will redirect when signed in.
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -162,6 +180,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 'Sign in',
                                 style: AppTextStyles.button.copyWith(color: Colors.white),
                               ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSizes.spacingL),
+                    
+                    Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacingM),
+                          child: Text(
+                            'OR',
+                            style: AppTextStyles.body.copyWith(
+                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: AppSizes.spacingL),
+
+                    SizedBox(
+                      height: AppSizes.touchPrimary,
+                      child: IdempotentSubmitButton(
+                        onPressed: _handleGoogleLogin,
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: AppColors.primary),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+                          ),
+                        ),
+                        child: Text(
+                          'Continue with Google',
+                          style: AppTextStyles.button.copyWith(
+                            color: isDark ? AppColors.primaryDark : AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
                   ],

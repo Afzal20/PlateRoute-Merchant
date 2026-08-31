@@ -54,6 +54,37 @@ class AuthRepository {
     );
   }
 
+  Future<LoginResult> loginWithGoogleToken(String accessToken) async {
+    final resp = await _dio.post(
+      '/auth/google/login/',
+      data: {'access_token': accessToken},
+    );
+
+    final access = resp.data['access'] as String? ?? '';
+    final refresh = resp.data['refresh'] as String? ?? '';
+
+    // After login, fetch vendor status
+    String vendorStatus = 'approved';
+    try {
+      final vendorResp = await _dio.get(
+        '/vendors/',
+        options: Options(headers: {'Authorization': 'Bearer $access'}),
+      );
+      final results = vendorResp.data['results'] as List?;
+      if (results != null && results.isNotEmpty) {
+        vendorStatus = results.first['status'] as String? ?? 'approved';
+      }
+    } catch (_) {
+      // If vendor fetch fails, assume approved and let auth proceed
+    }
+
+    return LoginResult(
+      access: access,
+      refresh: refresh,
+      vendorStatus: vendorStatus,
+    );
+  }
+
   Future<void> logout(Dio dio) async {
     await dio.post('/auth/logout/');
   }

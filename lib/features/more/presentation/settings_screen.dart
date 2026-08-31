@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/settings_provider.dart';
+import '../../../core/providers/branch_provider.dart';
 
 /// S13 — Settings: dark mode, sound families, shift-online toggle.
 class SettingsScreen extends ConsumerWidget {
@@ -77,10 +78,10 @@ class SettingsScreen extends ConsumerWidget {
                   'Override: keeps alarm volume above media stream while online',
                   style: AppTextStyles.dense.copyWith(color: textSecondary),
                 ),
-                value: true,
+                value: ref.watch(branchProvider).isAccepting,
                 activeColor: AppColors.actionAcceptDark,
                 onChanged: (v) {
-                  // TODO: POST to branch is_accepting toggle
+                  ref.read(branchProvider.notifier).toggleAccepting(v);
                 },
               ),
             ],

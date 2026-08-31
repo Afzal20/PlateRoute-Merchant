@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../features/auth/data/auth_repository.dart';
 
 import '../api/token_storage.dart';
 import 'core_providers.dart';
@@ -42,6 +44,33 @@ class AuthStateNotifier extends Notifier<AuthState> {
     final has = await storage.hasTokens();
     if (has) {
       state = state.copyWith(isAuthenticated: true);
+    }
+    
+    Supabase.instance.client.auth.onAuthStateChange.listen((data) async {
+      final event = data.event;
+      final session = data.session;
+      if (event == AuthChangeEvent.signedIn && session != null) {
+        try {
+          final repo = ref.read(authRepositoryProvider);
+          final result = await repo.loginWithGoogleToken(session.accessToken);
+          await signIn(
+            access: result.access,
+            refresh: result.refresh,
+            vendorStatus: result.vendorStatus,
+          );
+        } catch (_) {}
+      }
+    });
+  }
+
+  Future<bool> loginWithGoogle() async {
+    try {
+      return await Supabase.instance.client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'plateroutemerchant://login-callback',
+      );
+    } catch (_) {
+      return false;
     }
   }
 
