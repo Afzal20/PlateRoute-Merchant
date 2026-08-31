@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../features/auth/data/auth_repository.dart';
+import '../../features/auth/data/auth_repository.dart';
 
 import '../api/token_storage.dart';
 import 'core_providers.dart';
